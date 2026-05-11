@@ -31,6 +31,7 @@
 
 ## 工程目录结构
 
+```
 music_genre_classification/
 │
 ├── README.md                    # 本文档
@@ -104,3 +105,4 @@ music_genre_classification/
 │
 ├── requirements.txt             # Python依赖包
 └── main.py                      # 一键运行入口
+```

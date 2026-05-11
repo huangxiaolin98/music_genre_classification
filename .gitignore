@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+# Model outputs
+outputs/models/*.h5
+outputs/models/*.pkl
+outputs/figures/*.png
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# TensorFlow
+*.tflite
+*.pb
+logs/
+
+# Report
+report.docx
+
