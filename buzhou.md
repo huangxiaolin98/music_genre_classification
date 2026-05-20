@@ -22,8 +22,6 @@ conda activate music_cls
 pip install -r requirements.txt
 ```
 
-> 注意：你的机器是 Mac M4 Pro，TensorFlow 2.10+ 对 Apple Silicon 的支持建议用 `tensorflow-macos` 替代 `tensorflow`。如果安装 tensorflow 失败，需要改为 `pip install tensorflow-macos tensorflow-metal`。
-
 ---
 
 ### 实验一：决策树路线
@@ -34,7 +32,7 @@ pip install -r requirements.txt
 python src/train/train_dt.py
 ```
 
-这一步会自动完成：
+这一步动完成：
 - 加载 `data/features/features_30_sec.csv`
 - 预处理（标准化、分层划分 8:2）
 - **深度调优**：遍历 max_depth=1~20，5 折交叉验证，生成调优曲线图
