@@ -1,3 +1,10 @@
+# parse_cnn_log2.py
+# 作用：一次性日志诊断脚本（加强版）
+#       从 cnn_tuning.log 中精确提取学习率调优汇总表、
+#       最优学习率/卷积块数量/Dropout率等关键结论行，
+#       以及 Dropout 实验的训练准确率、验证准确率和过拟合差距明细，
+#       用于在 parse_cnn_log.py 基础上进一步锁定具体超参数结果，不参与主训练流程。
+
 import re
 
 log_path = '/Users/huangxiaogua/Documents/work/music_genre_classification/cnn_tuning.log'

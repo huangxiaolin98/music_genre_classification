@@ -1,3 +1,9 @@
+# parse_cnn_log.py
+# 作用：一次性日志诊断脚本
+#       从 cnn_tuning.log 中提取 val_accuracy 记录，
+#       并定位各轮超参数实验（学习率/卷积块数量/Dropout率）的分界线，
+#       用于快速排查调优日志中的关键结果，不参与主训练流程。
+
 import re
 
 log_path = '/Users/huangxiaogua/Documents/work/music_genre_classification/cnn_tuning.log'
