@@ -8,7 +8,11 @@ train_cnn.py
 import os
 import sys
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['STHeiti', 'Arial Unicode MS']
+plt.rcParams['axes.unicode_minus'] = False
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -28,9 +32,10 @@ BATCH_SIZE = 32
 EPOCHS = 100
 
 # 最优超参数（由调优实验确定）
-BEST_LR = 0.001
-BEST_CONV_BLOCKS = 3
-BEST_DROPOUT_CONV = 0.25
+# dropout=0.2在调优中达到70.71%验证集准确率，优于dropout=0.3的65.66%
+BEST_LR = 0.0001
+BEST_CONV_BLOCKS = 2
+BEST_DROPOUT_CONV = 0.2
 BEST_DROPOUT_FC = 0.5
 
 GENRES = ['blues', 'classical', 'country', 'disco', 'hiphop',
@@ -163,24 +168,12 @@ def build_dataset_pipeline(X_train, y_train,
 def get_callbacks():
     """
     定义训练回调函数
-    包含早停、学习率衰减、模型保存
+    仅保留ModelCheckpoint，保存验证集准确率最高的模型
+    注意：不使用EarlyStopping和ReduceLROnPlateau，
+          因为lr=0.0001的模型需要较多epoch才能收敛，
+          过早触发会导致训练失败
     """
     callbacks = [
-        # 早停：验证集loss连续15轮不下降则停止训练
-        tf.keras.callbacks.EarlyStopping(
-            monitor='val_loss',
-            patience=15,
-            restore_best_weights=True,
-            verbose=1
-        ),
-        # 学习率衰减：验证集loss连续8轮不下降则lr×0.5
-        tf.keras.callbacks.ReduceLROnPlateau(
-            monitor='val_loss',
-            factor=0.5,
-            patience=8,
-            min_lr=1e-6,
-            verbose=1
-        ),
         # 保存验证集准确率最高的模型
         tf.keras.callbacks.ModelCheckpoint(
             filepath=MODEL_SAVE_PATH,
@@ -230,7 +223,6 @@ def plot_training_history(history):
     plt.tight_layout()
     plt.savefig('outputs/figures/cnn_training_curve.png',
                 dpi=150, bbox_inches='tight')
-    plt.show()
     print("训练曲线已保存至 outputs/figures/cnn_training_curve.png")
 
 
@@ -259,7 +251,6 @@ def plot_confusion_matrix(y_true, y_pred):
     plt.tight_layout()
     plt.savefig('outputs/figures/confusion_matrix.png',
                 dpi=150, bbox_inches='tight')
-    plt.show()
     print("混淆矩阵已保存至 outputs/figures/confusion_matrix.png")
 
 
