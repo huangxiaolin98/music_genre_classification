@@ -8,7 +8,11 @@ cnn_tuning.py
 import os
 import sys
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['STHeiti', 'Arial Unicode MS']
+plt.rcParams['axes.unicode_minus'] = False
 import tensorflow as tf
 
 # 添加项目根目录到路径
@@ -45,7 +49,7 @@ def tune_learning_rate(train_ds, val_ds):
             train_ds,
             epochs=EPOCHS_TUNING,
             validation_data=val_ds,
-            verbose=0
+            verbose=1
         )
 
         histories[lr] = history
@@ -89,7 +93,6 @@ def tune_learning_rate(train_ds, val_ds):
     plt.tight_layout()
     plt.savefig('outputs/figures/lr_comparison.png',
                 dpi=150, bbox_inches='tight')
-    plt.show()
     print("学习率调优图已保存至 outputs/figures/lr_comparison.png")
 
     # 输出汇总表
@@ -144,7 +147,7 @@ def tune_network_depth(train_ds, val_ds, best_lr):
             train_ds,
             epochs=EPOCHS_TUNING,
             validation_data=val_ds,
-            verbose=0
+            verbose=1
         )
 
         best_val_acc = max(history.history['val_accuracy'])
@@ -209,7 +212,6 @@ def tune_network_depth(train_ds, val_ds, best_lr):
     plt.tight_layout()
     plt.savefig('outputs/figures/cnn_structure_tuning.png',
                 dpi=150, bbox_inches='tight')
-    plt.show()
     print("网络深度调优图已保存至"
           " outputs/figures/cnn_structure_tuning.png")
 
@@ -245,7 +247,7 @@ def tune_dropout_rate(train_ds, val_ds, best_lr, best_blocks):
             train_ds,
             epochs=EPOCHS_TUNING,
             validation_data=val_ds,
-            verbose=0
+            verbose=1
         )
 
         final_train_acc = history.history['accuracy'][-1]
@@ -331,7 +333,6 @@ def tune_dropout_rate(train_ds, val_ds, best_lr, best_blocks):
     plt.tight_layout()
     plt.savefig('outputs/figures/dropout_tuning.png',
                 dpi=150, bbox_inches='tight')
-    plt.show()
     print("Dropout调优图已保存至"
           " outputs/figures/dropout_tuning.png")
 
