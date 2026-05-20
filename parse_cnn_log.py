@@ -1,0 +1,30 @@
+import re
+
+log_path = '/Users/huangxiaogua/Documents/work/music_genre_classification/cnn_tuning.log'
+with open(log_path, 'r', encoding='utf-8', errors='ignore') as f:
+    lines = f.readlines()
+
+# 提取所有包含 val_accuracy 的行
+val_lines = []
+for i, line in enumerate(lines):
+    if 'val_accuracy:' in line:
+        val_lines.append((i, line.strip()))
+
+print(f"总共找到 {len(val_lines)} 个 val_accuracy 记录")
+
+# 打印前20个和最后20个
+print("\n--- 前20个 val_accuracy ---")
+for i, (ln, line) in enumerate(val_lines[:20]):
+    print(f"{ln}: {line[-120:]}")
+
+print("\n--- 最后20个 val_accuracy ---")
+for i, (ln, line) in enumerate(val_lines[-20:]):
+    print(f"{ln}: {line[-120:]}")
+
+# 尝试定位实验分界线
+print("\n--- 查找实验分界线 ---")
+for i, line in enumerate(lines):
+    if '当前学习率' in line or '当前卷积块数量' in line or '当前Dropout率' in line:
+        print(f"{i}: {line.strip()}")
+    if '最终验证准确率' in line or '最优验证准确率' in line or '参数量' in line:
+        print(f"{i}: {line.strip()}")
