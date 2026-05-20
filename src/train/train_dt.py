@@ -7,8 +7,13 @@ train_dt.py
 
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['STHeiti', 'Arial Unicode MS']
+plt.rcParams['axes.unicode_minus'] = False
 import seaborn as sns
+import time
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import (train_test_split,
                                      cross_val_score,
@@ -119,7 +124,6 @@ def tune_max_depth(X_train, y_train):
     plt.tight_layout()
     plt.savefig('outputs/figures/dt_depth_tuning.png',
                 dpi=150, bbox_inches='tight')
-    plt.show()
     print("深度调优曲线已保存至 outputs/figures/dt_depth_tuning.png")
 
     return best_depth
@@ -153,8 +157,10 @@ def compare_three_dt(X_train, X_test, y_train, y_test,
 
     results = {}
     for name, model in models.items():
-        # 训练模型
+        # 训练模型（计时）
+        start_time = time.time()
         model.fit(X_train, y_train)
+        train_time = time.time() - start_time
 
         # 测试集预测
         y_pred = model.predict(X_test)
@@ -170,13 +176,15 @@ def compare_three_dt(X_train, X_test, y_train, y_test,
             'model': model,
             'test_acc': acc,
             'cv_mean': cv_scores.mean(),
-            'cv_std': cv_scores.std()
+            'cv_std': cv_scores.std(),
+            'train_time': train_time
         }
 
         print(f"\n{name}")
         print(f"  测试集准确率：{acc:.4f}")
         print(f"  交叉验证准确率：{cv_scores.mean():.4f}"
               f" ± {cv_scores.std():.4f}")
+        print(f"  训练时间：{train_time:.4f}s")
         print(classification_report(
             y_test, y_pred,
             target_names=label_encoder.classes_
@@ -219,7 +227,6 @@ def compare_three_dt(X_train, X_test, y_train, y_test,
     plt.tight_layout()
     plt.savefig('outputs/figures/dt_comparison.png',
                 dpi=150, bbox_inches='tight')
-    plt.show()
     print("对比图已保存至 outputs/figures/dt_comparison.png")
 
     return results
