@@ -5,7 +5,11 @@ visualization.py
 """
 
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['STHeiti', 'Arial Unicode MS']
+plt.rcParams['axes.unicode_minus'] = False
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
 
@@ -38,7 +42,6 @@ def plot_spectrogram_samples(spectrograms, labels, save_path=None):
     if save_path:
         plt.savefig(save_path, dpi=150, bbox_inches='tight')
         print(f"频谱图样本已保存至 {save_path}")
-    plt.show()
 
 
 def plot_confusion_matrix(y_true, y_pred, title='混淆矩阵',
@@ -71,7 +74,6 @@ def plot_confusion_matrix(y_true, y_pred, title='混淆矩阵',
     if save_path:
         plt.savefig(save_path, dpi=150, bbox_inches='tight')
         print(f"混淆矩阵已保存至 {save_path}")
-    plt.show()
 
 
 def plot_training_curves(history, save_path=None):
@@ -112,7 +114,6 @@ def plot_training_curves(history, save_path=None):
     if save_path:
         plt.savefig(save_path, dpi=150, bbox_inches='tight')
         print(f"训练曲线已保存至 {save_path}")
-    plt.show()
 
 
 def plot_feature_importance(model, feature_names, top_n=20,
@@ -143,4 +144,3 @@ def plot_feature_importance(model, feature_names, top_n=20,
     if save_path:
         plt.savefig(save_path, dpi=150, bbox_inches='tight')
         print(f"特征重要性图已保存至 {save_path}")
-    plt.show()

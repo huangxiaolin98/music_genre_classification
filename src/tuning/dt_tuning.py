@@ -6,11 +6,15 @@ dt_tuning.py
 """
 
 import numpy as np
+import os
+import sys
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['STHeiti', 'Arial Unicode MS']
+plt.rcParams['axes.unicode_minus'] = False
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import validation_curve
-import sys
-import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 from src.train.train_dt import load_and_preprocess, RANDOM_STATE, CV_FOLDS
@@ -103,7 +107,6 @@ def tune_all_dt_algorithms(X_train, y_train):
     plt.tight_layout()
     plt.savefig('outputs/figures/dt_all_tuning.png',
                 dpi=150, bbox_inches='tight')
-    plt.show()
     print("\n三种决策树调优曲线已保存至"
           " outputs/figures/dt_all_tuning.png")
 

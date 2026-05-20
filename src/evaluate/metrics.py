@@ -8,7 +8,11 @@ metrics.py
 import os
 import sys
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['STHeiti', 'Arial Unicode MS']
+plt.rcParams['axes.unicode_minus'] = False
 import seaborn as sns
 import tensorflow as tf
 from sklearn.tree import DecisionTreeClassifier
@@ -272,7 +276,6 @@ def plot_model_comparison(dt_metrics, cnn_metrics,
     plt.tight_layout()
     plt.savefig('outputs/figures/model_comparison.png',
                 dpi=150, bbox_inches='tight')
-    plt.show()
     print("综合对比图已保存至"
           " outputs/figures/model_comparison.png")
 
@@ -326,7 +329,6 @@ def plot_radar_chart(dt_metrics, cnn_metrics, fusion_metrics):
     plt.tight_layout()
     plt.savefig('outputs/figures/radar_chart.png',
                 dpi=150, bbox_inches='tight')
-    plt.show()
     print("雷达图已保存至 outputs/figures/radar_chart.png")
 
 
