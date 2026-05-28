@@ -42,3 +42,9 @@ logs/
 # Report
 report.docx
 
+.aone_copilot/
+.python-version
+
+data/
+*.log
+~$report.docx
